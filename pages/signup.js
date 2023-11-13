@@ -15,7 +15,7 @@ const signUpHandler =async()=>{
 }
   return (
     <div>
-      <h4>Registerition Form</h4>
+      <h4>Registeriation Form</h4>
       <input placeholder='Email' type='text' value={email} onChange={e => setEmail(e.target.value)} />
       <input placeholder='Password' type='password' value={password} onChange={e => setPassword(e.target.value)} />
       <button onClick={signUpHandler}>Sing Up</button>
