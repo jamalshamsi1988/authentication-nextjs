@@ -5,7 +5,7 @@ const signup = () => {
     const [email , setEmail] = useState("");
     const [password , setPassword] = useState("")
 const signUpHandler =async()=>{
-    const res=await fetch("/api/auth/signup" ,{
+    const res=await fetch("/auth/signup" ,{
         method : "POST",
         body : JSON.stringify({email , password}),
         headers : {"Content-Type" : "application/json"}
