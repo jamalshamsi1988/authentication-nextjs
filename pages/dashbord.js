@@ -1,11 +1,28 @@
-import React from 'react'
+import { redirect } from "next/dist/server/api-utils";
+import React from "react";
+import { verifyToken } from "../utils/auth";
 
 const dashbord = () => {
-  return (
-    <div>
-      Dashbord
-    </div>
-  )
-}
+  return <div>Dashbord</div>;
+};
 
-export default dashbord
+export default dashbord;
+
+export async function getServerSideProps(context) {
+  const { token } = context.req.cookies;
+
+  const secretKey = process.env.SECRET_KEY;
+  const result = verifyToken(token, secretKey);
+
+  if (!result) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {result},
+  };
+}
