@@ -1,23 +1,26 @@
 import { verifyToken } from "../../utils/auth";
 
-async function handler(req,res){
+async function handler(req, res) {
+  if (req.method !== "GET") {
+    return;
+  }
 
-    if(req.method !== "GET"){
-        return;
-    }
+  const { token } = req.cookies;
 
-    const {token} = req.cookies;
-    const secretKey=process.env.SECRET_KEY;
-    if(!token){
-        return res.status(401).json({status:"failed" , message :"You are not Logged in!"});
-    }
-
-    const result= verifyToken(token,secretKey);
-    if(result){
-        return res.status(200).json({status:"success" , data:result})
-    }else{
-        return res.status(401).json({status:"failed" , message:"You are unauthorized"})
-    }
+  if (!token) {
+    return res
+      .status(401)
+      .json({ status: "failed", message: "You are not Logged in!" });
+  }
+  const secretKey = process.env.SECRET_KEY;
+  const result = verifyToken(token, secretKey);
+  if (result) {
+    return res.status(200).json({ status: "success", data: result });
+  } else {
+    return res
+      .status(401)
+      .json({ status: "failed", message: "You are unauthorized" });
+  }
 }
 
 export default handler;

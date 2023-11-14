@@ -2,7 +2,7 @@ import { sign } from "jsonwebtoken";
 import User from "../../../models/User";
 import { verifyPassword } from "../../../utils/auth";
 import connectDB from "../../../utils/connectDB";
-import { serialize } from "v8";
+import { serialize } from "cookie";
 
 async function handler(req, res) {
   if (req.method !== "POST") {
