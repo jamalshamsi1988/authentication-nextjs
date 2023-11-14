@@ -7,6 +7,11 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const logeOutHandler=async()=>{
+    const res= await fetch("/api/auth/signout");
+    const data= await res.json();
+    console.log(data)
+  }
   return (
     <>
       <Head>
@@ -24,6 +29,9 @@ export default function Home() {
       </button>
       <button>
         <Link href="/signin">Sign In</Link>
+      </button>
+      <button onClick={logeOutHandler}>
+       Loge Out
       </button>
       </main>
     </>

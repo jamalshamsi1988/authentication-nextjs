@@ -1,5 +1,3 @@
-import { redirect } from "next/dist/server/api-utils";
-import React from "react";
 import { verifyToken } from "../utils/auth";
 
 const dashbord = () => {
@@ -23,6 +21,6 @@ export async function getServerSideProps(context) {
     };
   }
   return {
-    props: {result},
+    props: { result },
   };
 }
