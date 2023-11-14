@@ -1,17 +1,26 @@
-import Head from 'next/head'
+import Head from "next/head";
 
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import Link from 'next/link'
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const logeOutHandler=async()=>{
-    const res= await fetch("/api/auth/signout");
-    const data= await res.json();
-    console.log(data)
-  }
+  const [isLogedIn, setIsLogedIn] = useState(false);
+  useEffect(() => {
+    fetch("/api/user")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") setIsLogedIn(true);
+      });
+  }, []);
+  const logeOutHandler = async () => {
+    const res = await fetch("/api/auth/signout");
+    const data = await res.json();
+    if(data.status === "success") setIsLogedIn(false)
+  };
   return (
     <>
       <Head>
@@ -21,19 +30,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-      <button>
-        <Link href="/dashbord">Dashbord</Link>
-      </button>
-      <button>
-        <Link href="/signup">Sign Up</Link>
-      </button>
-      <button>
-        <Link href="/signin">Sign In</Link>
-      </button>
-      <button onClick={logeOutHandler}>
-       Loge Out
-      </button>
+        {isLogedIn ? (
+          <>
+            <button>
+              <Link href="/dashbord">Dashbord</Link>
+            </button>
+            <button onClick={logeOutHandler}>Loge Out</button>
+          </>
+        ) : null}
+        {!isLogedIn ? (
+          <>
+            <button>
+              <Link href="/signup">Sign Up</Link>
+            </button>
+            <button>
+              <Link href="/signin">Sign In</Link>
+            </button>
+          </>
+        ) : null}
       </main>
     </>
-  )
+  );
 }
